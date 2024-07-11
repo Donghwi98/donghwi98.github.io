@@ -157,7 +157,7 @@
             }
         }
 
-        .popup-container {
+        .modal-container {
             display: none;
             position: fixed;
             top: 0;
@@ -170,7 +170,7 @@
             z-index: 1000;
         }
 
-        .popup-content {
+        .modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 5px;
@@ -180,11 +180,11 @@
             overflow-y: auto;
         }
 
-        .popup-content h2 {
+        .modal-content h2 {
             margin-bottom: 15px;
         }
 
-        .popup-content button {
+        .modal-content button {
             margin-top: 15px;
             padding: 5px 10px;
             color: rgb(143, 142, 142);
@@ -193,7 +193,7 @@
             cursor: pointer;
         }
 
-        .popup-content button:hover {
+        .modal-content button:hover {
             background-color: gray;
             color: white;
         }
@@ -228,11 +228,12 @@
             <h2>기술 스택</h2>
             <div class="skills">
                 <span class="skill">JAVA</span>
-                <span class="skill">HTML/CSS</span>
-                <span class="skill">CSS</span>
-                <span class="skill">JavaScript</span>
-                <span class="skill">Spring</span>
                 <span class="skill">DBMS</span>
+                <span class="skill">HTML/CSS</span>
+                <span class="skill">JavaScript</span>
+                <span class="skill">Jsp</span>
+                <span class="skill">Spring</span>
+                <span class="skill">Jpa</span>
                 <span class="skill">Git</span>
             </div>
         </section>
@@ -268,63 +269,67 @@
         <p>&copy; 2024 김동휘. All rights reserved.</p>
     </footer>
 
-    <!-- 팝업 컨테이너 -->
-    <div id="popup-container" class="popup-container">
-        <div class="popup-content">
+    <div id="modal-container" class="modal-container">
+        <div class="modal-content">
             <h2>기술 스택 상세</h2>
-            <div id="popup-skills"></div>
-            <button onclick="closePopup()">닫기</button>
+            <div id="modal-skills"></div>
+            <button onclick="closeModal()">닫기</button>
         </div>
     </div>
 
     <script>
-        function showPopup(skill) {
-            const popupContainer = document.getElementById('popup-container');
-            const popupSkills = document.getElementById('popup-skills');
+        function showModal(skill) {
+            const modalContainer = document.getElementById('modal-container');
+            const modalSkills = document.getElementById('modal-skills');
             let skillContent = '';
 
             switch(skill) {
                 case 'JAVA':
-                    skillContent = '객체 지향 프로그래밍 기반 애플리케이션 개발 가능. 클래스와 객체를 나누어 가위바위보 게임, 관리 프로그램, 예약 프로그램 구현 가능.';
+                    skillContent = '객체 지향 프로그래밍 기반 애플리케이션 개발 가능.<br>클래스와 객체를 나누어 가위바위보 게임, 관리 프로그램, 예약 프로그램 구현 가능.';
                     break;
                 case 'DBMS':
-                    skillContent = 'SQL CRUD,JOIN쿼리문 작성 가능. 데이터베이스 설계 및 구축 가능. (MariaDB, MySQL, Oracle)';
+                    skillContent = 'SQL CRUD,JOIN쿼리문 작성 가능.<br>데이터베이스 설계 및 구축 가능.<br>(MariaDB, MySQL, Oracle)';
                     break;
                 case 'HTML/CSS':
-                    skillContent = '웹페이지 레이아웃 구현 가능. 반응형 웹 구현 가능. 시멘틱 HTML을 사용하여 의미 있는 구조로 구현 가능.';
+                    skillContent = '시멘틱 HTML을 사용하여 의미 있는 구조로 구현 가능.<br>웹페이지 레이아웃 구현 가능.<br>반응형 웹 구현 가능.';
                     break;
                 case 'JavaScript':
-                    skillContent = 'Event 객체를 활용한 Event Bubbling/Capturing 구현. DOM을 동적으로 제어 가능.';
+                    skillContent = 'Event 객체를 활용한 Event Bubbling/Capturing 구현.<br>DOM을 동적으로 제어 가능.';
                     break;
                 case 'Jsp':
                     skillContent = 'Jsp/Servlet를 활용한 CRUD 기능이 있는 게시판 구현 및 설계 가능.';
                     break;
                 case 'Spring':
-                    skillContent = 'Spring Boot, Spring Security 사용 가능. CRUD 기능이 있는 게시판 구현 및 설계 가능. Rest API와 ajax를 활용하여 비동기적 기능 구현 가능';
+                    skillContent = 'Rest API와 ajax를 활용하여 비동기적 기능 구현 가능.<br>Spring Boot, Spring Security 사용 가능.<br>CRUD 기능이 있는 게시판 구현 및 설계 가능.';
                     break;
                 case 'Jpa':
                     skillContent = 'Jpa/Hibernate를 이용한 데이터베이스 연동 및 CRUD 기능 구현 가능.';
                     break;
                 case 'Git':
-                    skillContent = '브랜치를 나누어 충돌 최소화. Git을 이용해서 버전 관리 및 협업 가능.';
+                    skillContent = 'Git을 이용해서 버전 관리 및 협업 가능.<br>브랜치를 나누어 충돌 최소화.';
                     break;
                 default:
                     skillContent = '해당 기술에 대한 상세 정보가 없습니다.';
             }
 
-            popupSkills.innerHTML = `<p>${skillContent}</p>`;
-            popupContainer.style.display = 'flex';
+            modalSkills.innerHTML = `<p>${skillContent}</p>`;
+            modalContainer.style.display = 'flex';
         }
 
-        function closePopup() {
-            document.getElementById('popup-container').style.display = 'none';
+        function closeModal() {
+            document.getElementById('modal-container').style.display = 'none';
         }
 
-        // 각 스킬에 클릭 이벤트 리스너 추가
         document.querySelectorAll('.skill').forEach(skill => {
             skill.addEventListener('click', function() {
-                showPopup(this.textContent);
+                showModal(this.textContent);
             });
+        });
+
+        document.getElementById('modal-container').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
         });
     </script>
 </body>
