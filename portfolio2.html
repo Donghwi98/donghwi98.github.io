@@ -7,11 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #3a6ea5;
-            --secondary-color: #004e98;
-            --accent-color: #ff6700;
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
             --text-color: #333;
-            --bg-color: #f0f0f0;
+            --bg-color: #f4f4f4;
             --card-bg: #ffffff;
         }
 
@@ -26,135 +25,159 @@
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
-            display: flex;
             min-height: 100vh;
+            display: flex;
             flex-direction: column;
         }
 
-        .content-wrapper {
-            display: flex;
-            flex: 1;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
         }
 
-        nav {
-            width: 250px;
+        header {
             background-color: var(--secondary-color);
-            color: #fff;
-            padding: 2em;
-            position: fixed;
-            height: 100vh;
+            color: #ecf0f1;
+            padding: 3em 0;
+            text-align: center;
         }
 
-        nav h1 {
-            font-size: 1.5em;
-            margin-bottom: 1em;
-            text-align: center;
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
         }
 
         nav ul {
             list-style-type: none;
+            padding: 0;
         }
 
         nav ul li {
-            margin-bottom: 1em;
+            display: inline;
+            margin: 0 10px;
         }
 
         nav ul li a {
-            color: #fff;
+            color: #ecf0f1;
             text-decoration: none;
-            font-size: 1.1em;
             transition: color 0.3s ease;
         }
 
         nav ul li a:hover {
-            color: var(--accent-color);
+            color: var(--primary-color);
         }
 
         main {
-            margin-left: 250px;
-            padding: 2em;
-            width: calc(100% - 250px);
+            padding: 60px 0;
+            flex: 1;
         }
 
         section {
             background-color: var(--card-bg);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 2em;
-            margin-bottom: 2em;
+            padding: 40px;
+            margin-bottom: 60px;
+            transition: transform 0.3s ease;
         }
 
         h2 {
-            color: var(--primary-color);
-            margin-bottom: 1em;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5em;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            font-size: 1.8em;
         }
 
         .profile {
             display: flex;
             align-items: center;
-            gap: 2em;
+            gap: 50px;
         }
 
         .profile-image {
-            width: 150px;
+            width: 200px;
             height: 200px;
             border-radius: 50%;
-            overflow:hidden;
+            object-fit: cover;
         }
 
         .skills {
             display: flex;
             flex-wrap: wrap;
-            gap: 1em;
+            gap: 15px;
         }
 
         .skill {
             background-color: var(--primary-color);
-            color: #fff;
-            padding: 0.5em 1em;
+            color: white;
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9em;
+            transition: background-color 0.3s ease;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .skill:hover {
-            background-color: var(--accent-color);
+            background-color: var(--secondary-color);
             transform: translateY(-5px);
+        }
+
+        .projects {
+            display: grid;
+            gap: 40px;
         }
 
         .project {
             border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 1em;
-            margin-bottom: 1em;
+            padding: 20px;
             transition: box-shadow 0.3s ease;
         }
 
+        .project h2{
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .project-info {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
         .project:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
             cursor: pointer;
-            background-color: #eee;
+            background-color: #EEE;
+            transform: translateY(-5px);
         }
 
-        .project h3 {
-            color: var(--secondary-color);
-        }
-
-        .section-info, .project-info {
+        .section-info {
             font-style: italic;
             color: #666;
             margin-bottom: 15px;
         }
-
+        
         footer {
             background-color: var(--secondary-color);
-            color: #fff;
+            color: #ecf0f1;
             text-align: center;
-            padding: 1em;
-            margin-top: auto;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .profile {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+            }
         }
 
         .modal-container {
@@ -187,116 +210,91 @@
         .modal-content button {
             margin-top: 15px;
             padding: 5px 10px;
-            background-color: var(--primary-color);
-            color: white;
+            color: rgb(143, 142, 142);
             border: none;
             border-radius: 3px;
             cursor: pointer;
         }
 
-        code {
-            background-color: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-            font-size: 0.9em;
-            padding: 2px 4px;
-        }
-
-        pre {
-            background-color: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 1em;
-            overflow-x: auto;
-        }
-
-        @media (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
-
-            nav {
-                width: 100%;
-                height: auto;
-                position: static;
-            }
-
-            main {
-                margin-left: 0;
-                width: 100%;
-            }
+        .modal-content button:hover {
+            background-color: gray;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <div class="content-wrapper">
-        <nav>
+    <header>
+        <div class="container">
             <h1>김동휘 포트폴리오</h1>
-            <ul>
-                <li><a href="#about">소개</a></li>
-                <li><a href="#skills">기술 스택</a></li>
-                <li><a href="#projects">프로젝트</a></li>
-                <li><a href="#education">학력</a></li>
-                <li><a href="#contact">연락처</a></li>
-            </ul>
-        </nav>
+            <nav>
+                <ul>
+                    <li><a href="#about">소개</a></li>
+                    <li><a href="#skills">기술 스택</a></li>
+                    <li><a href="#projects">프로젝트</a></li>
+                    <li><a href="#education">학력</a></li>
+                    <li><a href="#contact">연락처</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        <main>
-            <section id="about" class="profile">
-                <img src="김동휘.jpg" alt="프로필 사진" class="profile-image">
-                <div>
-                    <h2>김동휘</h2>
-                    <p>안녕하십니까. 어제보다 발전 있는 오늘을 지향하는 신입 개발자 김동휘입니다. 새로운 기술을 배우는 것을 즐기며, 팀 협업을 통해 더 나은 결과물을 만들어내는 것에 큰 보람을 느낍니다.</p>
-                </div>
-            </section>
+    <main class="container">
+        <section id="about" class="profile">
+            <img src="김동휘.jpg" alt="프로필 사진" class="profile-image">
+            <div class="profile-info">
+                <h2>김동휘</h2>
+                <p>안녕하십니까. 어제보다 발전 있는 오늘을 지향 하는 신입 개발자 김동휘 입니다. 새로운 기술을 배우는 것을 즐기며, 팀 협업을 통해 더 나은 결과물을 만들어내는 것에 큰 보람을 느낍니다.</p>
+            </div>
+        </section>
 
-            <section id="skills">
-                <h2>기술 스택</h2>
-                <p class="section-info"><em>*각 기술을 클릭하면 상세 정보를 볼 수 있습니다.*</em></p>
-                <div class="skills">
-                    <span class="skill">JAVA</span>
-                    <span class="skill">DBMS</span>
-                    <span class="skill">HTML/CSS</span>
-                    <span class="skill">JavaScript</span>
-                    <span class="skill">Jsp</span>
-                    <span class="skill">Spring</span>
-                    <span class="skill">Jpa</span>
-                    <span class="skill">Git</span>
-                </div>
-            </section>
+        <section id="skills">
+            <h2>기술 스택</h2>
+            <p class="section-info">각 기술을 클릭하면 상세 정보를 볼 수 있습니다.</p>
+            <div class="skills">
+                <span class="skill">JAVA</span>
+                <span class="skill">DBMS</span>
+                <span class="skill">HTML/CSS</span>
+                <span class="skill">JavaScript</span>
+                <span class="skill">Jsp</span>
+                <span class="skill">Spring</span>
+                <span class="skill">Jpa</span>
+                <span class="skill">Git</span>
+            </div>
+        </section>
+        
 
-            <section id="projects">
-                <h2>프로젝트</h2>
-                <p class="section-info"><em>*각 항목을 클릭하면 상세 정보를 볼 수 있습니다.*</em></p>
+        <section id="projects">
+            <h2>팀 프로젝트</h2>
+            <p class="section-info">각 프로젝트를 클릭하면 상세 정보를 볼 수 있습니다.</p>
+            <div class="projects">
                 <div class="project">
-                    <h3>잡헌터(구인구직 사이트)</h3>
+                    <h2>잡헌터(구인구직 사이트)</h2>
                     <p class="project-info">6인 팀 프로젝트</p>
                     <p>잡헌터는 사용자 친화적 인터페이스를 기반으로 한 구직자와 기업을 연결하는 구인구직 플랫폼입니다. Spring 프레임워크를 활용하여 개발되었으며, 1:1채팅 상담 기능과 고객센터 게시판을 구현했습니다.</p>
                     <p>초기에는 일반 컨트롤러를 사용하여 모든 페이지를 구현하려 했으나, 실시간 상호작용의 필요성을 인식하고 아키텍처를 개선했습니다. 1:1 채팅 기능은 RESTful API와 비동기 폴링 기법을 결합한 접근 방식을 채택했습니다.</p>
                     <p>서버 측에서는 채팅 메시지를 저장하고 조회하는 엔드포인트를 구현했고, 클라이언트 측에서는 fetch API를 사용하여 주기적으로 새 메시지를 폴링하는 방식으로 실시간 채팅과 유사한 효과를 제공했습니다.</p>
-                    <p>특히, <code>setInterval</code> 함수를 활용하여 5초마다 서버로부터 최신 채팅 목록을 가져오는 <code>reloadChat</code> 함수를 구현했습니다. 이를 통해 실시간성을 확보했습니다.</p>
+                    <p>특히, setInterval 함수를 활용하여 5초마다 서버로부터 최신 채팅 목록을 가져오는 reloadChat 함수를 구현했습니다. 이를 통해 실시간성을 확보했습니다.</p>
                     <p>또한, 동적 UI 렌더링에 중점을 두어 데이터의 상태와 사용자 권한에 따라 조건부로 컴포넌트를 렌더링하는 방식을 채택했습니다. 이를 통해 사용자 맞춤형 인터페이스를 구현하여 UX를 크게 향상시켰습니다.</p>
                 </div>
                 <div class="project">
-                    <h3>잡빙수(구인구직 사이트)</h3>
+                    <h2>잡빙수(구인구직 사이트)</h2>
                     <p class="project-info">6인 팀 프로젝트</p>
                     <p>잡빙수는 신선한 UI/UX 디자인과 매칭 알고리즘을 제공하는 구인구직 플랫폼입니다. Spring 프레임워크를 활용하여 개발되었으며, 기업 페이지 관리, 기업 공고 관리, 지원자 관리를 구현했습니다.</p>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="education">
-                <h2>학력</h2>
-                <p>경성대학교 정보통신공학과 2024년 2월 졸업</p>
-            </section>
+        <section id="education">
+            <h2>학력</h2>
+            <p>경성대학교  정보통신공학과  2024년 2월 졸업</p>
+        </section>
 
-            <section id="contact">
-                <h2>연락처</h2>
-                <p>이메일: hwi9158@google.co.kr</p>
-                <p>전화번호: 010-5358-6014</p>
-            </section>
-        </main>
-    </div>
+        <section id="contact">
+            <h2>연락처</h2>
+            <p>이메일 : hwi9158@google.co.kr</p>
+            <p>전화번호 : 010-5358-6014</p>
+        </section>
+    </main>
 
     <footer>
         <p>&copy; 2024 김동휘. All rights reserved.</p>
@@ -329,7 +327,7 @@
                 case 'JavaScript':
                     skillContent = 'Event 객체를 활용한 Event Bubbling/Capturing 구현.<br>DOM을 동적으로 제어 가능.';
                     break;
-                case 'Jsp':
+                case 'Jsp/Servlet':
                     skillContent = 'Jsp/Servlet을 활용한 CRUD 기능이 있는 게시판 구현 및 설계 가능.';
                     break;
                 case 'Spring':
