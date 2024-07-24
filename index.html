@@ -274,7 +274,7 @@
             <section id="projects">
                 <h2>프로젝트</h2>
                 <p class="section-info"><em>*각 항목을 클릭하면 상세 정보를 볼 수 있습니다.*</em></p>
-                <div class="project">
+                <div class="project" id="jobhunter-project">
                     <h3>잡헌터(구인구직 사이트)</h3>
                     <p class="project-info">6인 팀 프로젝트</p>
                     <p>잡헌터는 사용자 친화적 인터페이스를 기반으로 한 구직자와 기업을 연결하는 구인구직 플랫폼입니다. Spring 프레임워크를 활용하여 개발되었으며, 저는 1:1채팅 상담 기능과 고객센터 게시판을 구현했습니다.</p>
@@ -372,6 +372,10 @@
             if (event.target === this) {
                 closeModal();
             }
+        });
+
+        document.getElementById('jobhunter-project').addEventListener('click', function() {
+            window.open('JobHunter.pdf', '_blank');
         });
     </script>
 </body>
