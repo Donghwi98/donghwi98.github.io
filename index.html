@@ -5,427 +5,473 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>김동휘 포트폴리오</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #3a6ea5;
-            --secondary-color: #004e98;
-            --accent-color: #ff6700;
-            --text-color: #333;
-            --bg-color: #f0f0f0;
-            --card-bg: #ffffff;
+            --dark-blue: #0a192f;
+            --light-blue: #112240;
+            --accent-blue: #64ffda;
+            --text-primary: #ccd6f6;
+            --text-secondary: #8892b0;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
         }
 
         body {
-            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--dark-blue);
+            color: var(--text-primary);
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
         }
 
-        .content-wrapper {
-            display: flex;
-            flex: 1;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         nav {
-            width: 250px;
-            background-color: var(--secondary-color);
-            color: #fff;
-            padding: 2em;
             position: fixed;
-            height: 100vh;
+            width: 100%;
+            top: 0;
+            background-color: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
         }
 
-        nav h1 {
-            font-size: 1.5em;
-            margin-bottom: 1em;
-            text-align: center;
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        nav ul {
-            list-style-type: none;
-        }
-
-        nav ul li {
-            margin-bottom: 1em;
-        }
-
-        nav ul li a {
-            color: #fff;
+        .logo {
+            font-size: 2rem;
+            color: var(--accent-blue);
             text-decoration: none;
-            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
             transition: color 0.3s ease;
         }
 
-        nav ul li a:hover {
-            color: var(--accent-color);
+        .nav-links a:hover {
+            color: var(--accent-blue);
         }
 
-        main {
-            margin-left: 250px;
-            padding: 2em;
-            width: calc(100% - 250px);
-        }
-
-        section {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 2em;
-            margin-bottom: 2em;
-        }
-
-        h2 {
-            color: var(--primary-color);
-            margin-bottom: 1em;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5em;
-        }
-
-        .profile {
+        .hero {
+            height: 100vh;
             display: flex;
             align-items: center;
-            gap: 2em;
+            padding-top: 80px;
         }
 
-        .profile-image {
-            width: 150px;
-            height: 200px;
-            border-radius: 50%;
-            overflow:hidden;
+        .hero-content {
+            max-width: 800px;
         }
 
-        .skills {
+        .hero-title {
+            font-size: clamp(40px, 8vw, 80px);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            color: var(--accent-blue);
+            font-size: clamp(16px, 3vw, 22px);
+            margin-bottom: 2rem;
+        }
+
+        .hero-description {
+            color: var(--text-secondary);
+            font-size: clamp(14px, 2vw, 18px);
+            max-width: 540px;
+            margin-bottom: 3rem;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: var(--accent-blue);
+            opacity: 0.3;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            background-color: var(--light-blue);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px);
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+
+        .project-card {
+            background-color: var(--light-blue);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-title {
+            color: var(--accent-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech {
             display: flex;
             flex-wrap: wrap;
-            gap: 1em;
+            gap: 0.5rem;
+            margin: 1rem 0;
         }
 
-        .skill {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 0.5em 1em;
+        .tech-tag {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-blue);
+            padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 0.9rem;
         }
 
-        .skill:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-5px);
-        }
-
-        .project {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1em;
-            margin-bottom: 1em;
-            transition: box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .project:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            cursor: pointer;
-            background-color: #eee;
-            transform: translateY(-5px);
-        }
-
-        .project h3 {
-            color: var(--secondary-color);
-        }
-
-        .section-info, .project-info {
-            font-style: italic;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            background-color: var(--secondary-color);
-            color: #fff;
-            text-align: center;
-            padding: 1em;
-            margin-top: auto;
-        }
-
-        .modal-container {
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
+            background-color: rgba(10, 25, 47, 0.9);
             z-index: 1000;
+            padding: 2rem;
         }
 
         .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 500px;
-            max-height: 80%;
-            overflow-y: auto;
+            background-color: var(--light-blue);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
         }
 
-        .modal-content h2 {
-            margin-bottom: 15px;
-        }
-
-        .modal-content button {
-            margin-top: 15px;
-            padding: 5px 10px;
-            background-color: var(--primary-color);
-            color: white;
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
             border: none;
-            border-radius: 3px;
+            color: var(--text-primary);
+            font-size: 1.5rem;
             cursor: pointer;
         }
 
-        code {
-            background-color: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-            font-size: 0.9em;
-            padding: 2px 4px;
+        .contact-info {
+            background-color: var(--light-blue);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
         }
 
-        pre {
-            background-color: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 1em;
-            overflow-x: auto;
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item i {
+            color: var(--accent-blue);
         }
 
         @media (max-width: 768px) {
-
-            .profile{
-                display: block;
-                text-align: center;
-            }
-            .content-wrapper {
-                flex-direction: column;
+            .nav-links {
+                display: none;
             }
 
-            nav {
-                width: 100%;
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero {
+                padding-top: 120px;
                 height: auto;
-                position: static;
+                min-height: 100vh;
+            }
+        }
+
+        .hero-profile {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .profile-image-container {
+            flex-shrink: 0;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 270px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--accent-blue);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.1);
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .hero-profile {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
             }
 
-            main {
-                margin-left: 0;
-                width: 100%;
+            .profile-image-container {
+                margin: 0 auto;
             }
-        }
-        .project-tech-list {
-            list-style-type: none;
-            padding-left: 0;
-            margin-bottom: 15px;
-        }
-        .project-tech-list li {
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            padding: 5px 10px;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-        .project-description {
-            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="content-wrapper">
-        <nav>
-            <h1>김동휘 포트폴리오</h1>
-            <ul>
-                <li><a href="#about">소개</a></li>
-                <li><a href="#skills">기술 스택</a></li>
-                <li><a href="#projects">프로젝트</a></li>
-                <li><a href="#education">학력</a></li>
-                <li><a href="#contact">연락처</a></li>
-            </ul>
-        </nav>
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">DH</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#education">Education</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-        <main>
-            <section id="about" class="profile">
-                <img src="김동휘.jpg" alt="프로필 사진" class="profile-image">
-                <div>
-                    <h2>김동휘</h2>
-                    <p>안녕하십니까. 도전을 즐기는 신입 개발자 김동휘입니다. 새로운 기술을 배우는 것을 즐기며, 팀 협업을 통해 더 나은 결과물을 만들어내는 것에 큰 보람을 느낍니다.</p>
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-profile">
+                <div class="profile-image-container">
+                    <img src="김동휘.jpg" alt="김동휘 프로필 사진" class="profile-image">
                 </div>
-            </section>
-
-            <section id="skills">
-                <h2>기술 스택</h2>
-                <p class="section-info"><em>*각 기술을 클릭하면 상세 정보를 볼 수 있습니다.*</em></p>
-                <div class="skills">
-                    <span class="skill">JAVA</span>
-                    <span class="skill">MariaDB</span>
-                    <span class="skill">HTML/CSS</span>
-                    <span class="skill">JavaScript</span>
-                    <span class="skill">JSP</span>
-                    <span class="skill">Spring</span>
-                    <span class="skill">JPA</span>
-                    <span class="skill">Git</span>
-                </div>
-            </section>
-
-            <section id="projects">
-                <h2>프로젝트</h2>
-                <p class="section-info"><em>*각 항목을 클릭하면 상세 정보를 볼 수 있습니다.*</em></p>
-                <div class="project" id="www-project">
-                    <h3>뭐뭐뭐(종합 요리 플랫폼)</h3>
-                    <p class="project-info">6인 팀 프로젝트</p>
-                    <ul class="project-tech-list">
-                        <li>Spring Boot를 이용한 백엔드 구현</li>
-                        <li>MyBatis를 활용한 데이터베이스 연동</li>
-                        <li>Spring Security를 이용한 사용자 인증 처리</li>
-                        <li>OpenWeatherMap API를 통한 날씨 데이터 및 메뉴 추천 시스템 구현</li>
-                        <li>Thymeleaf를 활용한 동적 페이지 구현</li>
-                        <li>JavaScript를 이용한 동적 UI 및 실시간 필터링 구현</li>
-                    </ul>
-                    <p class="project-description">
-                        메뉴 및 레시피 관련 페이지, 날씨 기반 메뉴 추천 시스템과 같은 기능을 구현했습니다. MyBatis를 활용하여 복잡한 데이터 쿼리를 효율적으로 처리했으며, OpenWeatherMap API를 활용한 날씨 기반 메뉴 추천 시스템을 구현하고 날씨 데이터와 메뉴 데이터를 결합하는 알고리즘을 개발하여 상황에 맞는 메뉴를 추천했습니다.
+                <div class="hero-text">
+                    <h1 class="hero-subtitle">안녕하세요, 제 이름은</h1>
+                    <h2 class="hero-title">김동휘입니다.</h2>
+                    <p class="hero-description">
+                        도전을 즐기는 신입 개발자입니다. 새로운 기술을 배우는 것을 즐기며, 팀 협업을 통해 더 나은 결과물을 만들어내는 것에 큰 보람을 느낍니다.
                     </p>
                 </div>
-                <div class="project" id="jobhunter-project">
-                    <h3>잡헌터(구인구직 플랫폼)</h3>
-                    <p class="project-info">6인 팀 프로젝트</p>
-                    <ul class="project-tech-list">
-                        <li>Spring Boot를 이용한 백엔드 구현</li>
-                        <li>JPA를 활용한 데이터베이스 연동</li>
-                        <li>RESTful API를 통한 실시간 채팅 구현</li>
-                        <li>JavaScript를 이용한 동적 UI 구현</li>
-                    </ul>
-                    <p class="project-description">
-                        1:1채팅 상담 기능과 고객센터 게시판을 구현했습니다. REST API와 비동기 폴링 기법을 결합하여 실시간 채팅 기능을 구현했으며, 서버 측에서는 JPA를 활용하여 채팅 메시지를 저장하고 조회하는 엔드포인트를 구현했습니다. 클라이언트 측에서는 JavaScript의 fetch API를 사용하여 주기적으로 새 메시지를 폴링하는 방식으로 실시간 채팅과 유사한 효과를 제공했습니다.
-                    </p>
-                </div>
-                <div class="project" id="jobbingsoo-project">
-                    <h3>잡빙수(구인구직 플랫폼)</h3>
-                    <p class="project-info">5인 팀 프로젝트</p>
-                    <ul class="project-tech-list">
-                        <li>Spring Boot를 이용한 백엔드 구현</li>
-                        <li>JPA를 활용한 데이터베이스 연동</li>
-                        <li>JWT 토큰을 이용한 사용자 인증 처리</li>
-                        <li>RESTful API를 통한 프론트엔드와 백엔드 통신</li>
-                        <li>JavaScript를 이용한 동적 UI 구현</li>
-                        <li>서버를 두 개로 분리하여 프론트엔드와 백엔드의 독립적인 개발</li>
-                    </ul>
-                    <p class="project-description">
-                        기업 페이지 관리, 기업 공고 관리, 지원자 관리와 같은 기업과 관련된 핵심 기능을 구현했습니다. 효율성과 확장성을 위해 뷰 서버와 REST 서버를 분리하여 크로스 오리진으로 정보 공유를 구현했고, 데이터와 관련된 모든 주요 기능을 REST API로 처리하는 방식을 채택했습니다.
-                    </p>
-                </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            <section id="education">
-                <h2>학력</h2>
+    <main class="container">
+        <section id="skills" class="section">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-item" onclick="showSkillModal('JAVA')">JAVA</div>
+                <div class="skill-item" onclick="showSkillModal('MariaDB')">MariaDB</div>
+                <div class="skill-item" onclick="showSkillModal('HTML/CSS')">HTML/CSS</div>
+                <div class="skill-item" onclick="showSkillModal('JavaScript')">JavaScript</div>
+                <div class="skill-item" onclick="showSkillModal('JSP')">JSP</div>
+                <div class="skill-item" onclick="showSkillModal('Spring')">Spring</div>
+                <div class="skill-item" onclick="showSkillModal('JPA')">JPA</div>
+                <div class="skill-item" onclick="showSkillModal('Git')">Git</div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2 class="section-title">Projects</h2>
+            
+            <div class="project-card" onclick="window.open('뭐뭐뭐.pdf', '_blank')">
+                <h3 class="project-title">뭐뭐뭐(종합 요리 플랫폼)</h3>
+                <p class="project-subtitle">6인 팀 프로젝트</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">MyBatis</span>
+                    <span class="tech-tag">Spring Security</span>
+                    <span class="tech-tag">Thymeleaf</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <p class="project-description">
+                    메뉴 및 레시피 관련 페이지, 날씨 기반 메뉴 추천 시스템과 같은 기능을 구현했습니다. OpenWeatherMap API를 활용한 날씨 기반 메뉴 추천 시스템을 구현하고 날씨 데이터와 메뉴 데이터를 결합하는 알고리즘을 개발했습니다.
+                </p>
+            </div>
+
+            <div class="project-card" onclick="window.open('JobHunter.pdf', '_blank')">
+                <h3 class="project-title">잡헌터(구인구직 플랫폼)</h3>
+                <p class="project-subtitle">6인 팀 프로젝트</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">JPA</span>
+                    <span class="tech-tag">RESTful API</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <p class="project-description">
+                    1:1채팅 상담 기능과 고객센터 게시판을 구현했습니다. REST API와 비동기 폴링 기법을 결합하여 실시간 채팅 기능을 구현했으며, JPA를 활용하여 채팅 메시지를 저장하고 조회하는 시스템을 개발했습니다.
+                </p>
+            </div>
+
+            <div class="project-card" onclick="window.open('JobBingsoo.pdf', '_blank')">
+                <h3 class="project-title">잡빙수(구인구직 플랫폼)</h3>
+                <p class="project-subtitle">5인 팀 프로젝트</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">JPA</span>
+                    <span class="tech-tag">JWT</span>
+                    <span class="tech-tag">RESTful API</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <p class="project-description">
+                    기업 페이지 관리, 기업 공고 관리, 지원자 관리와 같은 기업과 관련된 핵심 기능을 구현했습니다. 뷰 서버와 REST 서버를 분리하여 크로스 오리진으로 정보 공유를 구현했습니다.
+                </p>
+            </div>
+        </section>
+
+        <section id="education" class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="contact-info">
                 <p>경성대학교 정보통신공학과 2024년 2월 졸업</p>
-            </section>
+            </div>
+        </section>
 
-            <section id="contact">
-                <h2>연락처</h2>
-                <p>이메일: hwi9158@google.co.kr</p>
-                <p>전화번호: 010-8309-6014</p>
-            </section>
-        </main>
-    </div>
+        <section id="contact" class="section">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>hwi9158@google.co.kr</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p>010-8309-6014</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <footer>
-        <p>&copy; 2024 김동휘. All rights reserved.</p>
-    </footer>
-
-    <div id="modal-container" class="modal-container">
+    <div id="skillModal" class="modal">
         <div class="modal-content">
-            <h2>기술 스택 상세</h2>
-            <div id="modal-skills"></div>
-            <button onclick="closeModal()">닫기</button>
+            <button class="close-modal" onclick="closeSkillModal()">&times;</button>
+            <h2 id="modalTitle"></h2>
+            <p id="modalContent"></p>
         </div>
     </div>
 
     <script>
-        function showModal(skill) {
-            const modalContainer = document.getElementById('modal-container');
-            const modalSkills = document.getElementById('modal-skills');
-            let skillContent = '';
-
-            switch(skill) {
-                case 'JAVA':
-                    skillContent = '객체 지향 프로그래밍 기반 애플리케이션 개발 가능.<br>객체를 나누고 여러 자료구조(배열, 리스트, 맵, 셋)를 활용하여 가위바위보 게임, 관리 프로그램, 예약 프로그램 구현 가능.';
-                    break;
-                case 'MariaDB':
-                    skillContent = 'SQL CRUD, JOIN쿼리문 작성 가능.<br>데이터베이스 설계 및 구축 가능.<br>(MariaDB, MySQL, Oracle)';
-                    break;
-                case 'HTML/CSS':
-                    skillContent = '시맨틱 HTML을 사용하여 의미 있는 구조로 구현 가능.<br>웹페이지 레이아웃 구현 가능.<br>반응형 웹 구현 가능.';
-                    break;
-                case 'JavaScript':
-                    skillContent = '이벤트 객체를 활용한 이벤트 버블링/캡처링 구현.<br>DOM을 동적으로 제어 가능.';
-                    break;
-                case 'JSP':
-                    skillContent = 'JSP/Servlet을 활용한 CRUD 기능이 있는 게시판 구현 및 설계 가능.';
-                    break;
-                case 'Spring':
-                    skillContent = 'REST API와 ajax를 활용하여 비동기적 기능 구현 가능.<br>Spring Boot, Spring Security 사용 가능.<br>CRUD 기능이 있는 게시판 구현 및 설계 가능.';
-                    break;
-                case 'JPA':
-                    skillContent = 'JPA/Hibernate를 이용한 데이터베이스 연동 및 CRUD 기능 구현 가능.';
-                    break;
-                case 'Git':
-                    skillContent = 'Git을 이용해서 버전 관리 및 협업 가능.<br>브랜치를 나누어 충돌 최소화.';
-                    break;
-                default:
-                    skillContent = '해당 기술에 대한 상세 정보가 없습니다.';
+        const skillDetails = {
+            'JAVA': '객체 지향 프로그래밍 기반 애플리케이션 개발 가능.<br>객체를 나누고 여러 자료구조(배열, 리스트, 맵, 셋)를 활용하여 가위바위보 게임, 관리 프로그램, 예약 프로그램 구현 가능.',
+            'MariaDB': 'SQL CRUD, JOIN쿼리문 작성 가능.<br>데이터베이스 설계 및 구축 가능.<br>(MariaDB, MySQL, Oracle)',
+            'HTML/CSS': '시맨틱 HTML을 사용하여 의미 있는 구조로 구현 가능.<br>웹페이지 레이아웃 구현 가능.<br>반응형 웹 구현 가능.',
+            'JavaScript': '이벤트 객체를 활용한 이벤트 버블링/캡처링 구현.<br>DOM을 동적으로 제어 가능.',
+            'JSP': 'JSP/Servlet을 활용한 CRUD 기능이 있는 게시판 구현 및 설계 가능.',
+            'Spring': 'REST API와 ajax를 활용하여 비동기적 기능 구현 가능.<br>Spring Boot, Spring Security 사용 가능.<br>CRUD 기능이 있는 게시판 구현 및 설계 가능.',
+            'JPA': 'JPA/Hibernate를 이용한 데이터베이스 연동 및 CRUD 기능 구현 가능.',
+            'Git': 'Git을 이용해서 버전 관리 및 협업 가능.<br>브랜치를 나누어 충돌 최소화.'
+        };
+    
+        function showSkillModal(skill) {
+            const modal = document.getElementById('skillModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalTitle.textContent = skill;
+            modalContent.innerHTML = skillDetails[skill];
+            modal.style.display = 'block';
+        }
+    
+        function closeSkillModal() {
+            document.getElementById('skillModal').style.display = 'none';
+        }
+    
+        // 모달 외부 클릭시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('skillModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
             }
-
-            modalSkills.innerHTML = `<p>${skillContent}</p>`;
-            modalContainer.style.display = 'flex';
         }
-
-        function closeModal() {
-            document.getElementById('modal-container').style.display = 'none';
-        }
-
-        document.querySelectorAll('.skill').forEach(skill => {
-            skill.addEventListener('click', function() {
-                showModal(this.textContent);
+    
+        // 스크롤 시 네비게이션 바 효과
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.backgroundColor = 'rgba(10, 25, 47, 0.95)';
+            } else {
+                nav.style.backgroundColor = 'rgba(10, 25, 47, 0.85)';
+            }
+        });
+    
+        // 부드러운 스크롤 효과
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
-
-        document.getElementById('modal-container').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeModal();
-            }
-        });
-
-        document.getElementById('jobhunter-project').addEventListener('click', function() {
-            window.open('JobHunter.pdf', '_blank');
-        });
-
-        document.getElementById('jobbingsoo-project').addEventListener('click', function() {
-            window.open('JobBingsoo.pdf', '_blank');
-        });
-
-        document.getElementById('www-project').addEventListener('click', function() {
-            window.open('뭐뭐뭐.pdf', '_blank');
-        });
     </script>
-</body>
-</html>
+    </body>
+    </html>
