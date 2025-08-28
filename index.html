@@ -172,6 +172,24 @@
       min-height: 240px; border: 2px dashed #ffc1d0; border-radius:16px; background: #fff;
       color:#c05; font-weight:700;
     }
+    #imagePreview {
+      display: none;               /* 처음엔 숨김 */
+      position: fixed;             /* 화면 고정 */
+      inset: 0;                    /* top,right,bottom,left 모두 0 */
+      background: rgba(0,0,0,0.7); /* 어둡게 */
+      justify-content: center;     /* 가로 중앙 */
+      align-items: center;         /* 세로 중앙 */
+      z-index: 3000;               /* 다른 요소 위 */
+      cursor: pointer;             /* 클릭하면 닫는 안내 */
+    }
+
+    #imagePreview img {
+      max-width: 90%;              /* 화면 안에서 최대 90% */
+      max-height: 90%;             /* 화면 안에서 최대 90% */
+      border-radius: 14px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+      object-fit: contain;
+    }
 
     /* ====== RESPONSIVE ====== */
     @media (max-width: 768px){
@@ -297,6 +315,10 @@
     </div>
   </div>
 
+  <div id="imagePreview" onclick="this.style.display='none'">
+    <img src="" alt="preview">
+  </div>
+
   <script>
     /* =======================
        MOBILE KEYBOARD SAFE VH
@@ -403,8 +425,17 @@
     function renderSecretPhotos(){
       secretContainer.innerHTML = '';
       secretImageList.forEach(src=>{
-        const el=document.createElement('img');
-        el.src=src; el.alt=src;
+        const el = document.createElement('img');
+        el.src = src;
+        el.alt = src;
+        
+        // 클릭하면 모달 띄우기
+        el.addEventListener('click', ()=>{
+          const preview = document.getElementById('imagePreview');
+          preview.style.display = 'flex';
+          preview.querySelector('img').src = src;
+        });
+
         secretContainer.appendChild(el);
       });
     }
@@ -518,6 +549,16 @@
         inner && inner.classList.remove('fix-bottom-padding');
       });
     });
+
+    const galleryImages = document.querySelectorAll('.gallery img'); // 또는 갤러리 아이디 사용
+    galleryImages.forEach(img => {
+      img.addEventListener('click', () => {
+        const preview = document.getElementById('imagePreview');
+        preview.style.display = 'flex';
+        preview.querySelector('img').src = img.src;
+      });
+    });
+
   </script>
 </body>
 </html>
