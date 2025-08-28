@@ -1,245 +1,523 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Donghwi 💜 Dahi LoveStory</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Quicksand',sans-serif;}
-:root{
---bg-primary:#fff5f8;
---text-primary:#4a2c2a;
---accent-1:#ff7aa2;
---accent-2:#ffb6c1;
---glass:rgba(255,255,255,0.4);
-}
-body{background-color:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;}
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <title>Donghwi 💜 Dahi LoveStory</title>
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-.loader{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg-primary);display:flex;justify-content:center;align-items:center;flex-direction:column;z-index:9999;}
-.loader-text{font-size:2rem;font-weight:600;opacity:0;color:var(--accent-1);}
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
 
-.cursor,.cursor-follower{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%) rotate(-45deg);}
-.cursor{width:20px;height:20px;background:var(--accent-1);box-shadow:0 0 20px var(--accent-2);}
-.cursor-follower{width:40px;height:40px;background:var(--accent-2);opacity:0.4;z-index:9998;border-radius:50%;}
+    /* ====== CSS RESET & THEME ====== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root{
+      --bg-primary:#fff5f8;
+      --text-primary:#4a2c2a;
+      --accent-1:#ff7aa2;
+      --accent-2:#ffb6c1;
+      --glass:rgba(255,255,255,0.4);
+      --vh: 1vh;   /* updated via JS for mobile keyboard-safe heights */
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-top: env(safe-area-inset-top, 0px);
+    }
+    html, body { height: 100%; }
+    body{
+      background-color:var(--bg-primary);
+      color:var(--text-primary);
+      overflow-x:hidden;
+      font-family:'Quicksand',sans-serif;
+    }
 
-#background-canvas{position:fixed;top:0;left:0;z-index:-1;}
+    /* ====== LOADER ====== */
+    .loader{
+      position:fixed; inset:0;
+      width:100%; height:calc(var(--vh) * 100);
+      background:var(--bg-primary);
+      display:flex;justify-content:center;align-items:center;flex-direction:column;
+      z-index:9999; padding-bottom: var(--safe-bottom);
+    }
+    .loader-text{font-size:1.8rem;font-weight:700;opacity:0;color:var(--accent-1);}
 
-.nav{position:fixed;top:20px;width:90%;left:50%;transform:translateX(-50%);padding:15px;background:rgba(255,255,255,0.7);backdrop-filter:blur(10px);border-radius:20px;display:flex;justify-content:space-between;align-items:center;z-index:100;}
-.logo{font-size:1.3rem;font-weight:700;background:linear-gradient(to right,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.nav-links{display:flex;gap:30px;}
-.nav-link{color:var(--text-primary);text-decoration:none;font-weight:500;position:relative;padding:5px 0;}
-.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(to right,var(--accent-1),var(--accent-2));transition:width 0.3s ease;}
-.nav-link:hover::after{width:100%;}
+    /* ====== HEART CURSOR ====== */
+    .cursor, .cursor-follower{
+      position:fixed; pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%);
+      will-change: transform;
+    }
+    .cursor::before{
+      content:"❤";
+      font-size:22px; line-height:1; color:var(--accent-1); filter: drop-shadow(0 0 6px rgba(255,182,193,.6));
+    }
+    .cursor-follower{ opacity:0.35; z-index:9998; }
+    .cursor-follower::before{
+      content:"❤";
+      font-size:40px; line-height:1; color:var(--accent-2);
+      filter: drop-shadow(0 0 10px rgba(255,182,193,.8));
+    }
 
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 10vw;margin-top:0;}
-.hero-title{font-size:clamp(3rem,7vw,6rem);margin-bottom:20px;}
-.hero-description{font-size:1.3rem;opacity:0.8;margin-bottom:40px;}
+    /* ====== CANVAS BG ====== */
+    #background-canvas{position:fixed;top:0;left:0;z-index:-1;}
 
-section{padding:100px 10vw;}
-.section-title{font-size:2.5rem;text-align:center;margin-bottom:40px;background:linear-gradient(to right,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.gallery,#secretPhotos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
-.gallery img,.gallery video,#secretPhotos img{width:100%;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.2);transition:transform 0.3s ease;}
-.gallery img:hover,.gallery video:hover,#secretPhotos img:hover{transform:scale(1.05);}
+    /* ====== NAV ====== */
+    .nav{
+      position:fixed; top: max(12px, var(--safe-top)); width:92%;
+      left:50%; transform:translateX(-50%);
+      padding:12px 16px; background:rgba(255,255,255,0.7); backdrop-filter:blur(10px);
+      border-radius:20px; display:flex; justify-content:space-between; align-items:center;
+      z-index:100;
+    }
+    .logo{
+      font-size:1.2rem; font-weight:700;
+      background:linear-gradient(to right,var(--accent-1),var(--accent-2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      white-space:nowrap;
+    }
+    .nav-links{display:flex; gap:18px; flex-wrap:wrap;}
+    .nav-link{
+      color:var(--text-primary); text-decoration:none; font-weight:600; position:relative; padding:6px 0;
+    }
+    .nav-link::after{
+      content:''; position:absolute; bottom:0; left:0; width:0; height:2px;
+      background:linear-gradient(to right,var(--accent-1),var(--accent-2)); transition:width 0.3s ease;
+    }
+    .nav-link:hover::after{ width:100%; }
 
-.trip{cursor:pointer;display:inline-block;transition: transform 0.15s ease, opacity 0.15s ease;}
-.trip:hover{transform:translateY(-1px);opacity:0.85;}
-.trip.done{text-decoration:line-through;opacity:0.6;}
+    /* ====== SECTIONS ====== */
+    .hero{
+      min-height:calc(var(--vh) * 100);
+      display:flex; align-items:center; justify-content:center; text-align:center;
+      padding: 0 7vw; margin-top:0;
+    }
+    .hero-title{font-size:clamp(2.4rem, 7vw, 5rem); margin-bottom:16px;}
+    .hero-description{font-size:1.15rem; opacity:0.85; margin-bottom:32px;}
 
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:2000;}
-.modal-content{background:#fff;padding:20px;border-radius:15px;max-width:500px;text-align:center;}
-.modal img{width:100%;border-radius:10px;margin-bottom:15px;}
-.close-btn{margin-top:10px;padding:8px 15px;border:none;background:var(--accent-1);color:#fff;border-radius:10px;cursor:pointer;}
-.promise{text-align:center;font-size:1.2rem;line-height:1.8;}
+    section{padding: 84px 7vw;}
+    .section-title{
+      font-size:2.1rem; text-align:center; margin-bottom:28px;
+      background:linear-gradient(to right,var(--accent-1),var(--accent-2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .gallery, #secretPhotos{
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;
+    }
+    .gallery img, .gallery video, #secretPhotos img{
+      width:100%; border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,0.18);
+      transition:transform 0.25s ease;
+    }
+    .gallery img:hover, .gallery video:hover, #secretPhotos img:hover{ transform:translateY(-3px) scale(1.02); }
 
-#secretPage{text-align:center;display:none;}
-#numPad{margin-top:20px;}
-.num-btn{padding:15px;font-size:1.5rem;border-radius:10px;border:2px solid var(--accent-1);background:var(--bg-primary);color:var(--text-primary);cursor:pointer;transition:all 0.2s;}
-.num-btn:hover{background:var(--accent-2);color:#fff;transform:scale(1.1);}
-</style>
+    .trip{ cursor:pointer; display:inline-block; transition: transform 0.15s ease, opacity 0.15s ease; }
+    .trip:hover{ transform:translateY(-1px); opacity:0.9; }
+    .trip.done{ text-decoration:line-through; opacity:0.6; }
+
+    .modal{
+      position:fixed; inset:0; background:rgba(0,0,0,0.55);
+      display:none; justify-content:center; align-items:center; z-index:2000; padding:16px;
+    }
+    .modal-content{
+      background:#fff; padding:18px; border-radius:16px; max-width:520px; width:100%; text-align:center;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+    }
+    .modal img{ width:100%; border-radius:12px; margin-bottom:12px; }
+    .close-btn{
+      margin-top:10px; padding:10px 16px; border:none; background:var(--accent-1);
+      color:#fff; border-radius:10px; cursor:pointer; font-weight:700;
+    }
+    .promise{ text-align:center; font-size:1.05rem; line-height:1.9; }
+
+    /* ====== PASSWORD GATES ====== */
+    .gate{
+      position:fixed; inset:0; display:none; z-index:9000;
+      min-height:calc(var(--vh) * 100);
+      background:linear-gradient(180deg, #fff9fb 0%, #ffeaf1 100%);
+      padding: max(20px, var(--safe-top)) 16px max(24px, var(--safe-bottom));
+      overflow:auto;
+    }
+    .gate-inner{
+      max-width:520px; margin: 8vh auto 0; background: rgba(255,255,255,.7); backdrop-filter: blur(10px);
+      border-radius:18px; padding:22px 18px; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,.08);
+    }
+    .gate h2{ color: var(--accent-1); font-size:1.4rem; margin-bottom:10px; }
+    .gate p{ opacity:.9; }
+    .gate .field{
+      margin-top:16px; display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:nowrap;
+    }
+    .input{
+      padding:12px 14px; font-size:18px; border:2px solid var(--accent-1);
+      border-radius:12px; text-align:center; outline:none; width: 180px;
+      background: #fff;
+    }
+    .btn{
+      padding:12px 18px; background:var(--accent-1); color:#fff; border:none; border-radius:12px;
+      font-weight:800; cursor:pointer; transition:transform .08s ease, background .2s ease;
+      white-space:nowrap;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn:hover{ background:var(--accent-2); }
+    .err{ margin-top:10px; color:#d11; min-height: 1.2em; }
+
+    /* Make the main hidden until first gate passes */
+    #mainContent{ display:none; }
+
+    /* ====== SECRET PAGE (locked content) ====== */
+    #secretPageLocked{
+      display:flex; align-items:center; justify-content:center;
+      min-height: 240px; border: 2px dashed #ffc1d0; border-radius:16px; background: #fff;
+      color:#c05; font-weight:700;
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 768px){
+      .nav { gap: 8px; padding:10px 12px; }
+      .logo { font-size:1.05rem; }
+      .nav-links { gap:12px; }
+      .hero-description { font-size:1rem; }
+      section { padding:72px 5vw; }
+      .gallery, #secretPhotos { grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; }
+      .gate .field { gap:8px; }
+      .input { width: 160px; font-size:18px; }
+    }
+
+    /* Avoid layout jank near iOS keyboard */
+    .fix-bottom-padding { padding-bottom: calc(var(--safe-bottom) + 16px); }
+  </style>
 </head>
 <body>
-<div class="cursor"></div>
-<div class="cursor-follower"></div>
+  <!-- Heart Cursor -->
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-follower" aria-hidden="true"></div>
 
-<div class="loader">
-<div class="loader-text">동휘와 다희의 Love Story💜</div>
-</div>
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="loader-text">동휘와 다희의 Love Story💜</div>
+  </div>
 
-<canvas id="background-canvas"></canvas>
+  <!-- Background Canvas -->
+  <canvas id="background-canvas"></canvas>
 
-<nav class="nav">
-<div class="logo">Donghwi 💜 Dahi</div>
-<div class="nav-links">
-<a href="#home" class="nav-link">Home</a>
-<a href="#moments" class="nav-link">Our Moments</a>
-<a href="#love" class="nav-link">Our Trips</a>
-<a href="#promise" class="nav-link">Promise</a>
-<a href="#secretPage" class="nav-link">Secret</a>
-</div>
-</nav>
+  <!-- First Password Gate (0427) -->
+  <div class="gate" id="mainGate" aria-modal="true" role="dialog">
+    <div class="gate-inner" id="mainGateInner">
+      <h2>비밀번호 입력 🔒</h2>
+      <p>우리가 처음 사귄날!</p>
+      <div class="field">
+        <input type="password" class="input" id="mainPw" placeholder="****" inputmode="numeric" autocomplete="one-time-code" />
+        <button class="btn" id="mainEnter">Enter</button>
+      </div>
+      <div class="err" id="mainErr"></div>
+    </div>
+  </div>
 
-<section class="hero" id="home">
-<div>
-<h1 class="hero-title">Donghwi 💜 Dahi</h1>
-<p class="hero-description">동휘와 다희의 소중한 추억을 기록하는 공간</p>
-</div>
-</section>
+  <!-- Nav -->
+  <nav class="nav" id="nav">
+    <div class="logo">Donghwi 💜 Dahi</div>
+    <div class="nav-links">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#moments" class="nav-link">Our Moments</a>
+      <a href="#love" class="nav-link">Our Trips</a>
+      <a href="#promise" class="nav-link">Promise</a>
+      <a href="#secretPage" class="nav-link" id="secretNav">Secret</a>
+    </div>
+  </nav>
 
-<section id="moments">
-<h2 class="section-title">Our Moments</h2>
-<div class="gallery" id="momentsGallery"></div>
-</section>
+  <!-- Main Content -->
+  <div id="mainContent">
+    <section class="hero" id="home">
+      <div>
+        <h1 class="hero-title">Donghwi 💜 Dahi</h1>
+        <p class="hero-description">동휘와 다희의 소중한 추억을 기록하는 공간</p>
+      </div>
+    </section>
 
-<section id="love">
-<h2 class="section-title">What We Love</h2>
-<div class="promise">
-<span class="trip done" data-trip="gyeongju">💜 경주 25.09.08 ~ 25.09.09</span><br>
-<span class="trip" data-trip="jeju">💜 제주도</span><br>
-<span class="trip" data-trip="japan">💜 일본</span><br>
-<span class="trip" data-trip="chuncheon">💜 춘천</span><br>
-<span class="trip" data-trip="daejeon">💜 대전</span><br>
-<span class="trip" data-trip="geoje">💜 거제도</span><br>
-</div>
-</section>
+    <section id="moments">
+      <h2 class="section-title">Our Moments</h2>
+      <div class="gallery" id="momentsGallery"></div>
+    </section>
 
-<section id="promise">
-<h2 class="section-title">Promise</h2>
-<div class="promise">
-앞으로도 언제나 서로의 편이 되어주고,<br>
-작은 순간 하나까지도 소중히 간직하자 💫<br>
-앞으로도 쭉 사랑해 다히야💜
-</div>
-</section>
+    <section id="love">
+      <h2 class="section-title">What We Love</h2>
+      <div class="promise">
+        <span class="trip done" data-trip="gyeongju">💜 경주 25.09.08 ~ 25.09.09</span><br>
+        <span class="trip" data-trip="jeju">💜 제주도</span><br>
+        <span class="trip" data-trip="japan">💜 일본</span><br>
+        <span class="trip" data-trip="chuncheon">💜 춘천</span><br>
+        <span class="trip" data-trip="daejeon">💜 대전</span><br>
+        <span class="trip" data-trip="geoje">💜 거제도</span><br>
+      </div>
+    </section>
 
-<div class="modal" id="tripModal">
-<div class="modal-content">
-<h3 id="tripTitle"></h3>
-<img id="tripImage" src="" alt="">
-<p id="tripNote"></p>
-<button class="close-btn" onclick="closeModal()">Close</button>
-</div>
-</div>
+    <section id="promise">
+      <h2 class="section-title">Promise</h2>
+      <div class="promise">
+        앞으로도 언제나 서로의 편이 되어주고,<br>
+        작은 순간 하나까지도 소중히 간직하자 💫<br>
+        앞으로도 쭉 사랑해 다히야💜
+      </div>
+    </section>
 
-<section id="secretPage">
-<h2 class="section-title">Secret Page 🔒</h2>
-<div id="secretPhotos"></div>
-</section>
+    <!-- Trip Modal -->
+    <div class="modal" id="tripModal" aria-modal="true" role="dialog">
+      <div class="modal-content">
+        <h3 id="tripTitle"></h3>
+        <img id="tripImage" src="" alt="">
+        <p id="tripNote"></p>
+        <button class="close-btn" onclick="closeModal()">Close</button>
+      </div>
+    </div>
 
-<script>
-let secretUnlocked = false;
+    <!-- Secret Section -->
+    <section id="secretPage">
+      <h2 class="section-title">Secret Page 🔒</h2>
 
-window.addEventListener('load', ()=>{
-// 로딩 애니메이션
-gsap.to('.loader-text',{opacity:1,duration:1,yoyo:true,repeat:1});
-gsap.to('.loader',{opacity:0,delay:2,duration:1,onComplete:()=>{document.querySelector('.loader').style.display='none';}});
+      <!-- Locked cover (shown until 0726 correct) -->
+      <div id="secretPageLocked">비밀번호를 입력해야 확인할 수 있어요 🔒</div>
 
-// Our Moments 갤러리
-const momentsFiles=['1.mp4','2.jpg','3.jpg','4.jpg'];
-const gallery=document.getElementById('momentsGallery');
-momentsFiles.forEach(file=>{
-    let el;
-    if(file.endsWith('.mp4')){
-        el=document.createElement('video');
-        el.src=file;
-        el.autoplay=true;
-        el.loop=true;
-        el.muted=true;
-        el.playsInline=true;
-        el.controls=true;
-    }else{
-        el=document.createElement('img');
-        el.src=file;
+      <!-- Secret photos (rendered only after unlock) -->
+      <div id="secretPhotos" style="display:none;"></div>
+    </section>
+  </div>
+
+  <!-- Secret Page Gate (0726) -->
+  <div class="gate" id="secretGate" aria-modal="true" role="dialog">
+    <div class="gate-inner" id="secretGateInner">
+      <h2>동휘의 최애 사진 모음집 🔐</h2>
+      <p>비밀번호는 다히생일💜</p>
+      <div class="field">
+        <input type="password" class="input" id="secretPw" placeholder="****" inputmode="numeric" autocomplete="one-time-code" />
+        <button class="btn" id="secretEnter">Unlock</button>
+      </div>
+      <div class="err" id="secretErr"></div>
+    </div>
+  </div>
+
+  <script>
+    /* =======================
+       MOBILE KEYBOARD SAFE VH
+       ======================= */
+    function setVhUnit(){
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
-    gallery.appendChild(el);
-});
+    setVhUnit();
+    window.addEventListener('resize', setVhUnit);
 
-// Secret 이미지
-const secretImages=['s1.jpg','s2.jpg','s3.jpg','s4.jpg','s5.jpg','s6.jpg','s7.jpg','s8.jpg'];
-const secretContainer=document.getElementById('secretPhotos');
-secretImages.forEach(img=>{
-    const el=document.createElement('img');
-    el.src=img;
-    el.alt=img;
-    secretContainer.appendChild(el);
-});
-});
+    // visualViewport handling (iOS/Android keyboard)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', () => {
+        setVhUnit();
+        // give gates a bit more bottom padding to avoid covered buttons
+        const activeInput = document.querySelector('.gate input:focus');
+        const gateInner = activeInput ? activeInput.closest('.gate-inner') : null;
+        if (gateInner) gateInner.classList.add('fix-bottom-padding');
+      });
+      window.visualViewport.addEventListener('scroll', setVhUnit);
+    }
 
-// 커서
-const cursor=document.querySelector('.cursor');
-const follower=document.querySelector('.cursor-follower');
-document.addEventListener('mousemove',e=>{
-gsap.to(cursor,{x:e.clientX,y:e.clientY,duration:0.1});
-gsap.to(follower,{x:e.clientX,y:e.clientY,duration:0.3});
-});
+    /* =======================
+       LOADER
+       ======================= */
+    window.addEventListener('load', ()=>{
+      gsap.to('.loader-text',{opacity:1,duration:0.9,yoyo:true,repeat:1});
+      gsap.to('#loader',{opacity:0,delay:1.8,duration:0.8,onComplete:()=>{
+        document.getElementById('loader').style.display='none';
+        // show main gate after loader
+        showGate('mainGate', true);
+      }});
+    });
 
-// 3D 배경
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
-const renderer=new THREE.WebGLRenderer({canvas:document.querySelector('#background-canvas'),alpha:true});
-renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+    /* =======================
+       HEART CURSOR
+       ======================= */
+    const cursor = document.querySelector('.cursor');
+    const follower = document.querySelector('.cursor-follower');
+    const move = (e)=>{
+      const x = e.clientX ?? (e.touches && e.touches[0].clientX);
+      const y = e.clientY ?? (e.touches && e.touches[0].clientY);
+      if (x == null || y == null) return;
+      gsap.to(cursor,{x, y, duration:0.08, overwrite:true});
+      gsap.to(follower,{x, y, duration:0.28, overwrite:true});
+    };
+    document.addEventListener('mousemove', move, {passive:true});
+    document.addEventListener('touchstart', move, {passive:true});
+    document.addEventListener('touchmove', move, {passive:true});
 
-const particlesGeometry=new THREE.BufferGeometry();
-const particlesCount=3000;
-const posArray=new Float32Array(particlesCount*3);
-for(let i=0;i<particlesCount*3;i++){posArray[i]=(Math.random()-0.5)*5;}
-particlesGeometry.setAttribute('position',new THREE.BufferAttribute(posArray,3));
-const particlesMaterial=new THREE.PointsMaterial({size:0.01,color:0xff7aa2});
-const particlesMesh=new THREE.Points(particlesGeometry,particlesMaterial);
-scene.add(particlesMesh);
-camera.position.z=3;
+    /* =======================
+       THREE.JS PARTICLE BG
+       ======================= */
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({canvas:document.querySelector('#background-canvas'), alpha:true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 2800;
+    const posArray = new Float32Array(particlesCount*3);
+    for(let i=0;i<particlesCount*3;i++){ posArray[i] = (Math.random()-0.5)*5; }
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray,3));
+    const particlesMaterial = new THREE.PointsMaterial({ size:0.01, color:0xff7aa2 });
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+    camera.position.z = 3;
 
-function animate(){requestAnimationFrame(animate);particlesMesh.rotation.x+=0.0005;particlesMesh.rotation.y+=0.0005;renderer.render(scene,camera);}
-animate();
-window.addEventListener('resize',()=>{
-camera.aspect=window.innerWidth/window.innerHeight;
-camera.updateProjectionMatrix();
-renderer.setSize(window.innerWidth,window.innerHeight);
-});
+    function animate(){
+      requestAnimationFrame(animate);
+      particlesMesh.rotation.x += 0.0005;
+      particlesMesh.rotation.y += 0.0005;
+      renderer.render(scene, camera);
+    }
+    animate();
+    window.addEventListener('resize', ()=>{
+      camera.aspect = window.innerWidth/window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
-// 여행 모달
-const trips={
-gyeongju:{title:"Gyeongju",image:"bbd/1.jpg",note:"우리가 함께간 첫 여행✈️"},
-jeju:{title:"Jeju Island",image:"bbd/2.jpg",note:"아직 준비 중인 여행 ✈️"},
-japan:{title:"Japan",image:"bbd/3.jpg",note:"아직 준비 중인 여행 ✈️"},
-chuncheon:{title:"Chuncheon",image:"bbd/4.jpg",note:"아직 준비 중인 여행 ✈️"},
-daejeon:{title:"Daejeon",image:"bbd/5.jpg",note:"아직 준비 중인 여행 ✈️"},
-geoje:{title:"Geoje",image:"bbd/6.jpg",note:"아직 준비 중인 여행 ✈️"}
-};
+    /* =======================
+       CONTENT: GALLERY + SECRET
+       ======================= */
+    const momentsFiles=['1.mp4','2.jpg','3.jpg','4.jpg'];
+    const gallery=document.getElementById('momentsGallery');
+    momentsFiles.forEach(file=>{
+      let el;
+      if(file.endsWith('.mp4')){
+        el=document.createElement('video');
+        el.src=file; el.autoplay=true; el.loop=true; el.muted=true; el.playsInline=true; el.controls=true;
+        el.style.maxHeight='420px';
+      }else{
+        el=document.createElement('img');
+        el.src=file; el.alt=file;
+      }
+      gallery.appendChild(el);
+    });
 
-document.querySelectorAll('.trip').forEach(trip=>{
-trip.addEventListener('click',()=>{
-const key=trip.getAttribute('data-trip');
-if(!trips[key]) return;
-document.getElementById('tripTitle').innerText=trips[key].title;
-document.getElementById('tripImage').src=trips[key].image;
-document.getElementById('tripNote').innerText=trips[key].note;
-document.getElementById('tripModal').style.display='flex';
-});
-});
-function closeModal(){document.getElementById('tripModal').style.display='none';}
+    // Secret photos are created but not inserted until unlocked
+    const secretImageList=['s1.jpg','s2.jpg','s3.jpg','s4.jpg','s5.jpg','s6.jpg','s7.jpg','s8.jpg'];
+    const secretContainer=document.getElementById('secretPhotos');
+    function renderSecretPhotos(){
+      secretContainer.innerHTML = '';
+      secretImageList.forEach(src=>{
+        const el=document.createElement('img');
+        el.src=src; el.alt=src;
+        secretContainer.appendChild(el);
+      });
+    }
 
-// Secret 페이지 비밀번호
-document.querySelector('.nav-link[href="#secretPage"]').addEventListener('click',e=>{
-e.preventDefault();
-if(secretUnlocked){
-document.getElementById('secretPage').style.display='block';
-document.getElementById('secretPage').scrollIntoView({behavior:'smooth'});
-return;
-}
-const userInput=prompt("Secret 페이지 비밀번호를 입력하세요 🔒");
-if(userInput==="0427"){
-secretUnlocked=true;
-document.getElementById('secretPage').style.display='block';
-document.getElementById('secretPage').scrollIntoView({behavior:'smooth'});
-}else{
-alert("비밀번호가 틀렸습니다 😢");
-}
-});
-</script>
+    /* =======================
+       TRIPS MODAL
+       ======================= */
+    const trips={
+      gyeongju:{title:"Gyeongju",image:"bbd/1.jpg",note:"우리가 함께간 첫 여행✈️"},
+      jeju:{title:"Jeju Island",image:"bbd/2.jpg",note:"아직 준비 중인 여행 ✈️"},
+      japan:{title:"Japan",image:"bbd/3.jpg",note:"아직 준비 중인 여행 ✈️"},
+      chuncheon:{title:"Chuncheon",image:"bbd/4.jpg",note:"아직 준비 중인 여행 ✈️"},
+      daejeon:{title:"Daejeon",image:"bbd/5.jpg",note:"아직 준비 중인 여행 ✈️"},
+      geoje:{title:"Geoje",image:"bbd/6.jpg",note:"아직 준비 중인 여행 ✈️"}
+    };
+    document.querySelectorAll('.trip').forEach(trip=>{
+      trip.addEventListener('click',()=>{
+        const key=trip.getAttribute('data-trip');
+        if(!trips[key]) return;
+        document.getElementById('tripTitle').innerText=trips[key].title;
+        document.getElementById('tripImage').src=trips[key].image;
+        document.getElementById('tripNote').innerText=trips[key].note;
+        document.getElementById('tripModal').style.display='flex';
+      });
+    });
+    function closeModal(){ document.getElementById('tripModal').style.display='none'; }
+    window.closeModal = closeModal; // expose to button
+
+    /* =======================
+       PASSWORD GATES LOGIC
+       ======================= */
+    const body = document.body;
+    function showGate(id, lockScroll){
+      const gate = document.getElementById(id);
+      gate.style.display='block';
+      if (lockScroll) body.style.overflow='hidden';
+      const input = gate.querySelector('input');
+      setTimeout(()=> input && input.focus(), 30);
+    }
+    function hideGate(id){
+      const gate = document.getElementById(id);
+      gate.style.display='none';
+      body.style.overflow=''; // restore
+    }
+
+    // MAIN GATE (0427)
+    const MAIN_PASS = '0427';
+    const mainEnterBtn = document.getElementById('mainEnter');
+    const mainPwInput = document.getElementById('mainPw');
+    mainEnterBtn.addEventListener('click', tryMain);
+    mainPwInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') tryMain(); });
+    function tryMain(){
+      const err = document.getElementById('mainErr');
+      if (mainPwInput.value === MAIN_PASS){
+        hideGate('mainGate');
+        document.getElementById('mainContent').style.display='block';
+        // smooth scroll to top content
+        document.getElementById('home').scrollIntoView({behavior:'smooth', block:'start'});
+      } else {
+        err.textContent = '너무해!! 😢';
+        mainPwInput.select();
+      }
+    }
+
+    // SECRET GATE (0726)
+    const SECRET_PASS = '0726';
+    const secretNav = document.getElementById('secretNav');
+    const secretEnterBtn = document.getElementById('secretEnter');
+    const secretPwInput = document.getElementById('secretPw');
+    let secretUnlocked = false;
+
+    secretNav.addEventListener('click', (e)=>{
+      e.preventDefault();
+      if (secretUnlocked){
+        document.getElementById('secretPage').scrollIntoView({behavior:'smooth'});
+        return;
+      }
+      showGate('secretGate', true);
+    });
+    secretEnterBtn.addEventListener('click', trySecret);
+    secretPwInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') trySecret(); });
+
+    function trySecret(){
+      const err = document.getElementById('secretErr');
+      if (secretPwInput.value === SECRET_PASS){
+        secretUnlocked = true;
+        hideGate('secretGate');
+        // reveal photos
+        renderSecretPhotos();
+        document.getElementById('secretPageLocked').style.display = 'none';
+        document.getElementById('secretPhotos').style.display = 'grid';
+        document.getElementById('secretPage').scrollIntoView({behavior:'smooth'});
+      } else {
+        err.textContent = '이걸틀려??!';
+        secretPwInput.select();
+      }
+    }
+
+    // prevent iOS zoom-on-focus (by ensuring font-size >=16px)
+    document.querySelectorAll('input').forEach(inp => inp.style.fontSize = '18px');
+
+    // avoid gate controls being covered by keyboard
+    ['mainPw','secretPw'].forEach(id=>{
+      const el = document.getElementById(id);
+      el.addEventListener('focus', ()=>{
+        const inner = el.closest('.gate-inner');
+        inner && inner.classList.add('fix-bottom-padding');
+      });
+      el.addEventListener('blur', ()=>{
+        const inner = el.closest('.gate-inner');
+        inner && inner.classList.remove('fix-bottom-padding');
+      });
+    });
+  </script>
 </body>
 </html>
