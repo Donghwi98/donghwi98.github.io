@@ -110,11 +110,24 @@
     .gallery img, .gallery video, #secretPhotos img{
       width:100%; border-radius:14px; box-shadow:0 4px 14px rgba(0,0,0,0.18);
       transition:transform 0.25s ease;
+      cursor: pointer;
     }
     .gallery img:hover, .gallery video:hover, #secretPhotos img:hover{ transform:translateY(-3px) scale(1.02); }
 
-    .trip{ cursor:pointer; display:inline-block; transition: transform 0.15s ease, opacity 0.15s ease; }
-    .trip:hover{ transform:translateY(-1px); opacity:0.9; }
+    .trip{ 
+      cursor: pointer;
+      display: inline-block; 
+      transition: transform 0.3s ease, opacity 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+      font-weight: 600; 
+      color: #4a2c2a; /* 기본 색 */
+    }
+
+    .trip:hover{ 
+      transform: translateY(-6px) scale(1.1); /* 위로 살짝 뜨면서 확대 */
+      opacity: 1; 
+      color: #ff69b4; /* 핑크 계열로 강조 */
+      text-shadow: 0 4px 10px rgba(255,105,180,0.6); /* 글자 그림자 추가 */
+    }
     .trip.done{ text-decoration:line-through; opacity:0.6; }
 
     .modal{
@@ -130,7 +143,34 @@
       margin-top:10px; padding:10px 16px; border:none; background:var(--accent-1);
       color:#fff; border-radius:10px; cursor:pointer; font-weight:700;
     }
-    .promise{ text-align:center; font-size:1.05rem; line-height:1.9; }
+    .promise{
+      text-align: center;
+      font-size: 1.3rem; /* 글씨 키움 */
+      line-height: 2;     /* 줄 간격 넉넉히 */
+      font-family: 'Quicksand', 'Segoe UI', sans-serif; /* 부드럽고 모던한 느낌 */
+      color: #4a2c2a;     /* 메인 텍스트 컬러 */
+      font-weight: 500;    /* 적당히 도톰하게 */
+      letter-spacing: 0.5px; /* 살짝 간격 */
+    }
+
+    .promise-text{
+      text-align: center;
+      font-size: 1.4rem;            /* 글씨 키움 */
+      line-height: 2;               
+      font-family: 'Quicksand', 'Segoe UI', sans-serif;
+      color: #4a2c2a;
+      font-weight: 700;             /* 굵기 더 강하게 */
+      letter-spacing: 0.5px;
+      transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .promise-text:hover{
+      transform: scale(1.05);                     /* 살짝 확대 */
+      color: #ff69b4;                             /* 핑크톤 강조 */
+      text-shadow: 0 4px 12px rgba(255,105,180,0.4); /* 그림자 강조 */
+    }
+    
 
     /* ====== PASSWORD GATES ====== */
     .gate{
@@ -203,6 +243,127 @@
       .input { width: 160px; font-size:18px; }
     }
 
+   .name-link {
+      cursor: pointer;
+      position: relative;
+      display: inline-block;          /* transform이 제대로 적용되도록 */
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .name-link:hover {
+      color: #ff69b4;
+      transform: translateY(-3px);    /* 글씨 살짝 위로 */
+    }
+
+    .name-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #ff69b4, #ff1493);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .name-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* 이름 모달 공통 */
+    .name-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, 0.55);
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      overflow-y: auto; /* 내용이 길면 스크롤 */
+    }
+
+    /* 모달 컨텐츠 박스 */
+    .name-modal-content {
+      background: #fff0f8;          /* 은은한 핑크톤 */
+      padding: 28px 24px;           /* 여유 있는 패딩 */
+      border-radius: 20px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+      text-align: center;
+      overflow-wrap: break-word;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    /* 이미지 */
+    .name-modal-content img {
+      max-width: 160px;
+      border-radius: 50%;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    /* 이름 헤더 */
+    .name-modal-content h3 {
+      font-size: 1.8rem;
+      color: #ff4da6;       /* 핑크/보라 그라데이션 느낌 */
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    /* 프로필 리스트 */
+    .name-modal-content .profile-info {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+      text-align: left;
+    }
+    .name-modal-content .profile-info li {
+      margin-bottom: 6px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #4a2c2a;         /* 메인 텍스트 컬러 */
+    }
+    .name-modal-content .profile-info li:first-child {
+      font-weight: 700;
+      color: #d63384;        /* 이름 강조 */
+    }
+
+    /* 특징 강조 */
+    .name-modal-content .profile-info li:nth-child(6) {
+      color: #ff69b4;
+      font-weight: 600;
+    }
+
+    /* 메시지 */
+    .name-modal-content .profile-message {
+      font-size: 1.05rem;
+      color: #ff4da6;
+      font-weight: 600;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    /* 모바일 대응 */
+    @media (max-width: 600px){
+      .name-modal-content {
+        padding: 20px 16px;
+      }
+      .name-modal-content h3 {
+        font-size: 1.5rem;
+      }
+      .name-modal-content .profile-info li {
+        font-size: 0.95rem;
+      }
+      .name-modal-content .profile-message {
+        font-size: 1rem;
+      }
+    }
+
     /* Avoid layout jank near iOS keyboard */
     .fix-bottom-padding { padding-bottom: calc(var(--safe-bottom) + 16px); }
   </style>
@@ -249,7 +410,10 @@
   <div id="mainContent">
     <section class="hero" id="home">
       <div>
-        <h1 class="hero-title">Donghwi 💜 Dahi</h1>
+        <h1 class="hero-title">
+          <span class="name-link" id="donghwiName">Donghwi</span> 💜 
+          <span class="name-link" id="dahiName">Dahi</span>
+        </h1>
         <p class="hero-description">동휘와 다희의 소중한 추억을 기록하는 공간</p>
       </div>
     </section>
@@ -260,20 +424,20 @@
     </section>
 
     <section id="love">
-      <h2 class="section-title">What We Love</h2>
+      <h2 class="section-title">Our Trips</h2>
       <div class="promise">
-        <span class="trip done" data-trip="gyeongju">💜 경주 25.09.08 ~ 25.09.09</span><br>
-        <span class="trip" data-trip="jeju">💜 제주도</span><br>
-        <span class="trip" data-trip="japan">💜 일본</span><br>
-        <span class="trip" data-trip="chuncheon">💜 춘천</span><br>
-        <span class="trip" data-trip="daejeon">💜 대전</span><br>
-        <span class="trip" data-trip="geoje">💜 거제도</span><br>
+        <span class="trip done" data-trip="gyeongju">✈️ 경주 25.09.08 ~ 25.09.09</span><br>
+        <span class="trip" data-trip="jeju">✈️ 제주도</span><br>
+        <span class="trip" data-trip="japan">✈️ 일본</span><br>
+        <span class="trip" data-trip="chuncheon">✈️ 춘천</span><br>
+        <span class="trip" data-trip="daejeon">✈️ 대전</span><br>
+        <span class="trip" data-trip="geoje">✈️ 거제도</span><br>
       </div>
     </section>
 
     <section id="promise">
       <h2 class="section-title">Promise</h2>
-      <div class="promise">
+      <div class="promise-text">
         앞으로도 언제나 서로의 편이 되어주고,<br>
         작은 순간 하나까지도 소중히 간직하자 💫<br>
         앞으로도 쭉 사랑해 다히야💜
@@ -317,6 +481,40 @@
 
   <div id="imagePreview" onclick="this.style.display='none'">
     <img src="" alt="preview">
+  </div>
+
+  <!-- Donghwi Modal -->
+  <div class="name-modal" id="donghwiModal">
+    <div class="name-modal-content">
+      <img src="dh1.jpg" alt="Donghwi">
+      <h3>Donghwi</h3>
+      <ul class="profile-info">
+        <li>이름: 김동휘</li>
+        <li>나이: 28살(1998년생)</li>
+        <li>MBTI: ENFJ</li>
+        <li>별명: 없음</li>
+        <li>자주하는 말: 각오해</li>
+        <li>특징: 다히 밖에 모름, 가끔 속 썩임. 딴데선 테토 그 자체, 다히 앞에선 에겐남.</li>
+      </ul>
+      <p class="profile-message">다히야, 너만 보면 웃음이 나와 💜</p>
+    </div>
+  </div>
+
+  <!-- Dahi Modal -->
+  <div class="name-modal" id="dahiModal">
+    <div class="name-modal-content">
+      <img src="dh2.jpg" alt="Dahi">
+      <h3>Dahi</h3>
+      <ul class="profile-info">
+        <li>이름: 이다희</li>
+        <li>나이: 26살(2000년생)</li>
+        <li>MBTI: ISFP</li>
+        <li>별명: 공주, 아가, 아강이</li>
+        <li>자주하는 말: 으앙, 끄아아아앙, 주인님, 기모찌</li>
+        <li>특징: 세상에서 제일 착하고, 귀엽고, 사랑스러움. 무엇보다 아주 예쁨. 서러우면 움.</li>
+      </ul>
+      <p class="profile-message">끄아아아아아아아아앙💜</p>
+    </div>
   </div>
 
   <script>
@@ -404,7 +602,7 @@
     /* =======================
        CONTENT: GALLERY + SECRET
        ======================= */
-    const momentsFiles=['1.mp4','2.jpg','3.jpg','4.jpg'];
+    const momentsFiles=['1.mp4','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg'];
     const gallery=document.getElementById('momentsGallery');
     momentsFiles.forEach(file=>{
       let el;
@@ -444,12 +642,12 @@
        TRIPS MODAL
        ======================= */
     const trips={
-      gyeongju:{title:"Gyeongju",image:"bbd/1.jpg",note:"우리가 함께간 첫 여행✈️"},
-      jeju:{title:"Jeju Island",image:"bbd/2.jpg",note:"아직 준비 중인 여행 ✈️"},
-      japan:{title:"Japan",image:"bbd/3.jpg",note:"아직 준비 중인 여행 ✈️"},
-      chuncheon:{title:"Chuncheon",image:"bbd/4.jpg",note:"아직 준비 중인 여행 ✈️"},
-      daejeon:{title:"Daejeon",image:"bbd/5.jpg",note:"아직 준비 중인 여행 ✈️"},
-      geoje:{title:"Geoje",image:"bbd/6.jpg",note:"아직 준비 중인 여행 ✈️"}
+      gyeongju:{title:"Gyeongju",image:"bbd/1.jpg",note:"우리가 함께간 첫 여행!!"},
+      jeju:{title:"Jeju Island",image:"bbd/2.jpg",note:"아직 준비 중인 여행···"},
+      japan:{title:"Japan",image:"bbd/3.jpg",note:"아직 준비 중인 여행···"},
+      chuncheon:{title:"Chuncheon",image:"bbd/4.jpg",note:"아직 준비 중인 여행···"},
+      daejeon:{title:"Daejeon",image:"bbd/5.jpg",note:"아직 준비 중인 여행···"},
+      geoje:{title:"Geoje",image:"bbd/6.jpg",note:"아직 준비 중인 여행···"}
     };
     document.querySelectorAll('.trip').forEach(trip=>{
       trip.addEventListener('click',()=>{
@@ -556,6 +754,37 @@
         const preview = document.getElementById('imagePreview');
         preview.style.display = 'flex';
         preview.querySelector('img').src = img.src;
+      });
+    });
+
+    const donghwiName = document.getElementById("donghwiName");
+    const dahiName = document.getElementById("dahiName");
+    const donghwiModal = document.getElementById("donghwiModal");
+    const dahiModal = document.getElementById("dahiModal");
+
+    // 이름 클릭 → 모달 열기
+    document.getElementById("donghwiName").addEventListener("click", () => {
+      document.getElementById("donghwiModal").style.display = "flex";
+    });
+    document.getElementById("dahiName").addEventListener("click", () => {
+      document.getElementById("dahiModal").style.display = "flex";
+    });
+
+    // 모달 바깥 클릭 → 닫기
+    document.querySelectorAll(".name-modal").forEach(modal => {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+    });
+
+    // 일반 모달 (tripModal) 바깥 클릭 → 닫기
+    document.querySelectorAll(".modal").forEach(modal => {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
       });
     });
 
